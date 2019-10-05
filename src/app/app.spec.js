@@ -1,15 +1,13 @@
-const GET_RATES_BUTTON_QUERY = '[data-test=GetRates-button]';
+const EX_RATES_COMPONENT_QUERY = '[data-test=ExRates]';
 
-context('Get Exchange Rates', () => {
+context('Exchange Rates Application', () => {
     beforeEach(() => {
         cy.whitelist();
     });
 
-    it('Clicks get exchange rates button', () => {
+    it('Rendered Exchange Rates component', () => {
         cy.visit('/');
 
-        cy.get(GET_RATES_BUTTON_QUERY).should('exist');
-
-        cy.get(GET_RATES_BUTTON_QUERY).click();
+        cy.get(EX_RATES_COMPONENT_QUERY).should('exist');
     });
 });
