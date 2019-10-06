@@ -2,7 +2,7 @@ import { Action, PayloadAction } from '../../types';
 
 // action types
 export enum ExRatesActionTypes {
-    GET_EX_RATES_REQUEST = 'GET_EX_RATES',
+    GET_EX_RATES_REQUEST = 'GET_EX_RATES_REQUEST',
     GET_EX_RATES_SUCCESS = 'GET_EX_RATES_SUCCESS',
     GET_EX_RATES_ERROR = 'GET_EX_RATES_ERROR'
 }
