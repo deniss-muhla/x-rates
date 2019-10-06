@@ -1,5 +1,7 @@
 const EX_RATES_API = 'https://api.exchangeratesapi.io/latest';
 const GET_RATES_BUTTON_QUERY = '[data-test=GetRates-button]';
+const REDUX_EX_RATES_SELECTOR = win =>
+    win.store.getState().api.exRates.latestRates;
 
 context('Exchange Rates', () => {
     beforeEach(() => {
@@ -7,18 +9,32 @@ context('Exchange Rates', () => {
     });
 
     it('Clicks get exchange rates button', () => {
+        // Add API request watcher
         cy.route({
             method: 'GET',
             url: EX_RATES_API
         }).as('apiExRates');
 
+        // visit landing page
         cy.visit('/');
 
+        // find and click get rates button
         cy.get(GET_RATES_BUTTON_QUERY).should('exist');
         cy.get(GET_RATES_BUTTON_QUERY).click();
 
+        // wait for API request
         cy.wait('@apiExRates').then(xhr => {
-            assert.isNotNull(xhr.response.body.data, '1st API call has data');
+            const responseData = xhr.response.body;
+            assert.isNotNull(responseData, 'Get ExRates API call has data');
+
+            // test redux store data
+            cy.window()
+                .then(REDUX_EX_RATES_SELECTOR)
+                .should(reduxData => {
+                    expect(reduxData, 'Redux store ExRates').to.deep.eq(
+                        responseData
+                    );
+                });
         });
     });
 });

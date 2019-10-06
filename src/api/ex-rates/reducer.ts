@@ -29,7 +29,7 @@ const exRatesReducer: Reducer<ExRatesState, ExRatesActions> = (
         case ExRatesActionTypes.GET_EX_RATES_ERROR: {
             return {
                 ...prevState,
-                isPending: true,
+                isPending: false,
                 error: action.payload
             };
         }

@@ -23,4 +23,9 @@ const store = createStore(
 // run root sagas
 sagaMiddleware.run(apiSaga);
 
+// expose store when run in Cypress
+if (window.Cypress) {
+    window.store = store;
+}
+
 export default store;

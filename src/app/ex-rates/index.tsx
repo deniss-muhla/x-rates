@@ -1,9 +1,26 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { exRatesSelectors, exRatesActions } from '../../api/ex-rates';
+import ExRatesTable from './ex-rates-table';
 
 const ExRates: FunctionComponent = () => {
+    const exRates = useSelector(exRatesSelectors.GetExRatesState);
+    const dispatch = useDispatch();
+    const getRates = useCallback(
+        () => dispatch(exRatesActions.GetExRatesRequest()),
+        [dispatch]
+    );
+
     return (
         <div data-test={ExRates.displayName}>
-            <button data-test={'GetRates-button'}>Get Exchange Rates</button>
+            <button data-test={'GetRates-button'} onClick={getRates}>
+                {'Get Exchange Rates for EUR base'}
+            </button>
+            <ExRatesTable
+                isPending={exRates.isPending}
+                error={exRates.error}
+                data={exRates.latestRates}
+            />
         </div>
     );
 };

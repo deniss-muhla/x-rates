@@ -22,7 +22,9 @@ function* GetExRatesRequestHandler() {
 
         // send response to reducer
         yield put(GetExRatesSuccess(response.data));
-    } catch {
+    } catch (e) {
+        console.error(e);
+
         // send error to reducer
         yield put(GetExRatesError('Failed to get latest rates'));
     }
