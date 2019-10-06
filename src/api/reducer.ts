@@ -1,4 +1,7 @@
-import { combineReducers } from 'redux';
+import { combineReducers, ReducersMapObject } from 'redux';
 import { exRatesReducer } from './ex-rates';
+import { ApiState } from './types';
 
-export default combineReducers({ exRates: exRatesReducer });
+const apiReducer: ReducersMapObject<ApiState> = { exRates: exRatesReducer };
+
+export default combineReducers(apiReducer);

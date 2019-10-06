@@ -1,27 +1,36 @@
 import { Action, PayloadAction } from '../../types';
 
-export enum IExRatesActionTypes {
-    GET_EX_RATES_LATEST_REQUEST = 'GET_EX_RATES_LATEST',
-    GET_EX_RATES_LATEST_SUCCESS = 'GET_EX_RATES_LATEST_SUCCESS',
-    GET_EX_RATES_LATEST_ERROR = 'GET_EX_RATES_LATEST_ERROR'
+// action types
+export enum ExRatesActionTypes {
+    GET_EX_RATES_REQUEST = 'GET_EX_RATES',
+    GET_EX_RATES_SUCCESS = 'GET_EX_RATES_SUCCESS',
+    GET_EX_RATES_ERROR = 'GET_EX_RATES_ERROR'
 }
-export type IGetExRatesLatestRequestAction = Action<
-    IExRatesActionTypes.GET_EX_RATES_LATEST_REQUEST
+
+// get latest rates request action type
+export type GetExRatesRequestAction = Action<
+    ExRatesActionTypes.GET_EX_RATES_REQUEST
 >;
-export type IGetExRatesLatestSuccessAction = PayloadAction<
-    IExRatesActionTypes.GET_EX_RATES_LATEST_SUCCESS,
+
+// get latest rates success response action type
+export type GetExRatesSuccessAction = PayloadAction<
+    ExRatesActionTypes.GET_EX_RATES_SUCCESS,
     ExRates
 >;
-export type IGetExRatesLatestErrorAction = PayloadAction<
-    IExRatesActionTypes.GET_EX_RATES_LATEST_ERROR,
+
+// get latest rates error response action type
+export type GetExRatesErrorAction = PayloadAction<
+    ExRatesActionTypes.GET_EX_RATES_ERROR,
     string
 >;
 
-export type IExRatesActions =
-    | IGetExRatesLatestRequestAction
-    | IGetExRatesLatestSuccessAction
-    | IGetExRatesLatestErrorAction;
+// all ExRates action types
+export type ExRatesActions =
+    | GetExRatesRequestAction
+    | GetExRatesSuccessAction
+    | GetExRatesErrorAction;
 
+// get rates response type
 export type ExRates = {
     rates: {
         [key: string]: number;
@@ -30,8 +39,9 @@ export type ExRates = {
     date: string;
 };
 
-export type IExRatesState = {
+// ExRates state type
+export type ExRatesState = {
     isPending: boolean;
     error?: string;
-    latest?: ExRates;
+    latestRates?: ExRates;
 };

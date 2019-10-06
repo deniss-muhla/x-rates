@@ -4,6 +4,7 @@
     "npm.packageManager": "yarn",
     "cSpell.words": [
         "antialiased",
-        "browserslist"
+        "browserslist",
+        "devtools"
     ]
 }

@@ -1,32 +1,32 @@
-import { IExRatesState, IExRatesActions, IExRatesActionTypes } from './types';
+import { ExRatesState, ExRatesActions, ExRatesActionTypes } from './types';
 import { Reducer } from 'redux';
 
-const initialState: IExRatesState = {
+const initialState: ExRatesState = {
     isPending: false,
     error: undefined,
-    latest: undefined
+    latestRates: undefined
 };
 
-const exRatesReducer: Reducer<IExRatesState, IExRatesActions> = (
+const exRatesReducer: Reducer<ExRatesState, ExRatesActions> = (
     prevState = initialState,
     action
 ) => {
     switch (action.type) {
-        case IExRatesActionTypes.GET_EX_RATES_LATEST_REQUEST: {
+        case ExRatesActionTypes.GET_EX_RATES_REQUEST: {
             return {
                 ...prevState,
                 isPending: true,
                 error: undefined
             };
         }
-        case IExRatesActionTypes.GET_EX_RATES_LATEST_SUCCESS: {
+        case ExRatesActionTypes.GET_EX_RATES_SUCCESS: {
             return {
                 ...prevState,
                 isPending: false,
-                latest: action.payload
+                latestRates: action.payload
             };
         }
-        case IExRatesActionTypes.GET_EX_RATES_LATEST_ERROR: {
+        case ExRatesActionTypes.GET_EX_RATES_ERROR: {
             return {
                 ...prevState,
                 isPending: true,
