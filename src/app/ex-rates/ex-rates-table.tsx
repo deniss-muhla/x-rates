@@ -7,7 +7,7 @@ type ExRatesTableProps = {
 };
 
 const ExRatesTable: FunctionComponent<ExRatesTableProps> = ({ data }) => {
-    return (
+    return data && data.rates ? (
         <table>
             <thead>
                 <tr>
@@ -16,22 +16,18 @@ const ExRatesTable: FunctionComponent<ExRatesTableProps> = ({ data }) => {
                 </tr>
             </thead>
             <tbody>
-                {data && data.rates ? (
-                    Object.keys(data.rates).map(key => {
-                        return (
-                            <tr key={key}>
-                                <td>{key}</td>
-                                <td>{data.rates[key]}</td>
-                            </tr>
-                        );
-                    })
-                ) : (
-                    <tr>
-                        <td colSpan={2}>{'No data'}</td>
-                    </tr>
-                )}
+                {Object.keys(data.rates).map(key => {
+                    return (
+                        <tr key={key}>
+                            <td>{key}</td>
+                            <td>{data.rates[key]}</td>
+                        </tr>
+                    );
+                })}
             </tbody>
         </table>
+    ) : (
+        <span>{'No data'}</span>
     );
 };
 

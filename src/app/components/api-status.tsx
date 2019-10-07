@@ -1,15 +1,24 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 
 type ApiStatusProps = {
     isPending: boolean;
     error?: string;
 };
 
+// Higher Order Component for async API data rendering
 const withApiStatus = <P extends object>(
     WrappedComponent: FunctionComponent<P>
 ): FunctionComponent<P & ApiStatusProps> => {
     return props => {
         const { isPending, error } = props;
+
+        // Error alert side effect
+        useEffect(() => {
+            if (error) {
+                window.alert(error);
+            }
+        }, [error]); // Only re-run the effect if count changes
+
         if (isPending) {
             // render loading component
             return <span>{'Loading...'}</span>;

@@ -2,6 +2,7 @@ import React, { FunctionComponent, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { exRatesSelectors, exRatesActions } from '../../api/ex-rates';
 import ExRatesTable from './ex-rates-table';
+import './ex-rates.css';
 
 const ExRates: FunctionComponent = () => {
     const exRates = useSelector(exRatesSelectors.GetExRatesState);
@@ -12,7 +13,7 @@ const ExRates: FunctionComponent = () => {
     );
 
     return (
-        <div data-test={ExRates.displayName}>
+        <div data-test={ExRates.displayName} className={'ex-rates-container'}>
             <button data-test={'GetRates-button'} onClick={getRates}>
                 {'Get Exchange Rates for EUR base'}
             </button>
