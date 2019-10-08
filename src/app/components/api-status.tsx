@@ -21,12 +21,12 @@ const withApiStatus = <P extends object>(
 
         if (isPending) {
             // render loading component
-            return <span>{'Loading...'}</span>;
+            return <span data-test={'ApiLoading'}>{'Loading...'}</span>;
         } else if (error) {
             // render error and wrapped component
             return (
                 <>
-                    <span>{`Error: ${error}`}</span>
+                    <span data-test={'ApiError'}>{`Error: ${error}`}</span>
                     <WrappedComponent {...props} />
                 </>
             );

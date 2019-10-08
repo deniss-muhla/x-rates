@@ -1,5 +1,4 @@
 {
-    "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     "npm.packageManager": "yarn",
     "cSpell.words": [
