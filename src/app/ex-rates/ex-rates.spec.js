@@ -13,10 +13,14 @@ context('Exchange Rates', () => {
     });
 
     it('Clicks get exchange rates button and render data', () => {
-        // Add API request watcher. Don't Stub Responses to check possible API changes
+        // load fixture ex-rates-latest.json
+        cy.fixture('ex-rates-latest.json').as('exRatesLatestJSON');
+
+        // watch for API requests and stub responses
         cy.route({
             method: 'GET',
-            url: EX_RATES_API
+            url: EX_RATES_API,
+            response: '@exRatesLatestJSON'
         }).as('apiExRates');
 
         // visit landing page
@@ -35,14 +39,6 @@ context('Exchange Rates', () => {
         // wait for API response
         cy.wait('@apiExRates').then(xhr => {
             const responseData = xhr.response.body;
-            assert.isNotNull(responseData, 'Get ExRates API call has data');
-
-            // test redux store data
-            cy.store(REDUX_EX_RATES_SELECTOR).should(reduxData => {
-                expect(reduxData, 'Redux store ExRates').to.deep.eq(
-                    responseData
-                );
-            });
 
             // test rendered table
             Object.keys(responseData.rates).forEach(key => {

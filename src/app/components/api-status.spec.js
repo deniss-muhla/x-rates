@@ -19,7 +19,7 @@ context('Api Status Component', () => {
         // load fixture ex-rates-latest.json
         cy.fixture('ex-rates-latest.json').as('exRatesLatestJSON');
 
-        // Watch for API requests and stub responses
+        // watch for API requests and stub responses
         cy.route({
             method: 'GET',
             url: EX_RATES_API,

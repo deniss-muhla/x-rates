@@ -5,7 +5,7 @@ context('Exchange Rates Application', () => {
         cy.whitelist();
     });
 
-    it('Rendered Exchange Rates component', () => {
+    it('Rendered ExRates component', () => {
         cy.visit('/');
 
         cy.get(EX_RATES_COMPONENT_QUERY).should('exist');
