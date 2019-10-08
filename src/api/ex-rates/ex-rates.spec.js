@@ -4,6 +4,7 @@ const API_GET_EX_RATES_SUCCESS_TYPE = 'GET_EX_RATES_SUCCESS';
 const API_GET_EX_RATES_ERROR_TYPE = 'GET_EX_RATES_ERROR';
 const API_GET_EX_RATES_ERROR_PAYLOAD = 'TEST_ERROR_PAYLOAD';
 const API_EX_RATES_SELECTOR = 'api.exRates';
+const DATE_FORMAT = 'YYYY-MM-DD';
 
 context('Redux Store: API.ExRates', () => {
     beforeEach(() => {
@@ -59,8 +60,23 @@ context('Redux Store: API.ExRates', () => {
 
         // wait for API response
         cy.wait('@apiExRates').then(xhr => {
+            // check external API
             expect(xhr.response.body, 'Get ExRates API response').to.be.not
                 .empty;
+            expect(xhr.response.body.base, 'Get ExRates API response.base').to
+                .be.not.empty;
+            // check ExRates date is within two days
+            expect(
+                xhr.response.body.date,
+                'Get ExRates API response.date'
+            ).to.satisfy(date => {
+                return Cypress.moment(date).isBetween(
+                    Cypress.moment().subtract(2, 'days'),
+                    Cypress.moment()
+                );
+            });
+            expect(xhr.response.body.rates, 'Get ExRates API response.rates ')
+                .to.be.not.empty;
             cy.store(API_EX_RATES_SELECTOR).should(exRates => {
                 expect(exRates.isPending, 'ExRates pending state').to.be.false;
                 expect(exRates.error, 'ExRates error state').to.be.empty;
