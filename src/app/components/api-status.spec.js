@@ -65,6 +65,12 @@ context('Api Status Component', () => {
             .should('exist')
             .should('contain', API_GET_EX_RATES_ERROR_PAYLOAD);
         cy.get(EX_RATES_TABLE_QUERY).should('exist');
+        // check error modal
+        cy.on('window:alert', str => {
+            expect(str, 'Window modal').to.equal(
+                API_GET_EX_RATES_ERROR_PAYLOAD
+            );
+        });
 
         // dispatch get rates success action
         cy.dispatch(API_GET_EX_RATES_SUCCESS_TYPE, {});
