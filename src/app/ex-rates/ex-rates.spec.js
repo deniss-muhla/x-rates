@@ -1,5 +1,6 @@
 const EX_RATES_API = 'https://api.exchangeratesapi.io/latest';
 const EX_RATES_QUERY = '[data-test=ExRates]';
+const EX_RATES_TABLE_QUERY = '[data-test=ExRatesTable]';
 const GET_RATES_BUTTON_QUERY = '[data-test=GetRates-button]';
 const GET_RATES_ROW_QUERY = key => `[data-test=row-${key}]`;
 const GET_RATES_ROW_CURR_QUERY = '[data-test=curr]';
@@ -23,6 +24,9 @@ context('Exchange Rates', () => {
 
         // find ExRates component
         cy.get(EX_RATES_QUERY).should('exist');
+
+        // find ExRates table component
+        cy.get(EX_RATES_TABLE_QUERY).should('exist');
 
         // find and click get rates button
         cy.get(GET_RATES_BUTTON_QUERY).should('exist');
