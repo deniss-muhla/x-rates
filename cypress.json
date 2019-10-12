@@ -1,0 +1,8 @@
+{
+  "projectId": "x-rates",
+  "integrationFolder": "src",
+  "testFiles": "**/*.spec.js",
+  "cypress-watch-and-reload": {
+    "watch": "src/*"
+  }
+}
