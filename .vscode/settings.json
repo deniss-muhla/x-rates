@@ -4,7 +4,9 @@
     "cSpell.words": [
         "antialiased",
         "browserslist",
+        "clsx",
         "commitlint",
-        "devtools"
+        "devtools",
+        "unmount"
     ]
 }
