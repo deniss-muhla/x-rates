@@ -5,6 +5,7 @@ const API_GET_EX_RATES_ERROR_TYPE = 'GET_EX_RATES_ERROR';
 const API_GET_EX_RATES_ERROR_PAYLOAD = 'TEST_ERROR_PAYLOAD';
 const API_EX_RATES_SELECTOR = 'api.exRates';
 const DATE_FORMAT = 'YYYY-MM-DD';
+const EX_RATE_EXPIRATION_D = 3;
 
 context('Redux Store: API.ExRates', () => {
     beforeEach(() => {
@@ -65,13 +66,13 @@ context('Redux Store: API.ExRates', () => {
                 .empty;
             expect(xhr.response.body.base, 'Get ExRates API response.base').to
                 .be.not.empty;
-            // check ExRates date is within two days
+            // check ExRates date is within X days
             expect(
                 xhr.response.body.date,
                 'Get ExRates API response.date'
             ).to.satisfy(date => {
                 return Cypress.moment(date).isBetween(
-                    Cypress.moment().subtract(2, 'days'),
+                    Cypress.moment().subtract(EX_RATE_EXPIRATION_D, 'days'),
                     Cypress.moment()
                 );
             });

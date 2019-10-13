@@ -2,6 +2,8 @@ const EX_RATES_API = 'https://api.exchangeratesapi.io/latest';
 const EX_RATES_TABLE_QUERY = '[data-test=ExRatesTable]';
 const API_LOADING_QUERY = '[data-test=ApiLoading]';
 const API_ERROR_QUERY = '[data-test=ApiError]';
+const API_ERROR_CLOSE_BUTTON_QUERY = '[data-test=ApiErrorCloseButton]';
+
 const API_GET_EX_RATES_REQUEST_TYPE = 'GET_EX_RATES_REQUEST';
 const API_GET_EX_RATES_SUCCESS_TYPE = 'GET_EX_RATES_SUCCESS';
 const API_GET_EX_RATES_ERROR_TYPE = 'GET_EX_RATES_ERROR';
@@ -34,10 +36,10 @@ context('Api Status Component', () => {
         // dispatch get rates request action
         cy.dispatch(API_GET_EX_RATES_REQUEST_TYPE);
 
-        // Loading: visible; Error: hidden; Wrapped: hidden
+        // Loading: visible; Error: hidden; Wrapped: visible
         cy.get(API_LOADING_QUERY).should('exist');
         cy.get(API_ERROR_QUERY).should('not.exist');
-        cy.get(EX_RATES_TABLE_QUERY).should('not.exist');
+        cy.get(EX_RATES_TABLE_QUERY).should('exist');
 
         // wait for API response
         cy.wait('@apiExRates').then(() => {
@@ -65,12 +67,12 @@ context('Api Status Component', () => {
             .should('exist')
             .should('contain', API_GET_EX_RATES_ERROR_PAYLOAD);
         cy.get(EX_RATES_TABLE_QUERY).should('exist');
-        // check error modal
-        cy.on('window:alert', str => {
-            expect(str, 'Window modal').to.equal(
-                API_GET_EX_RATES_ERROR_PAYLOAD
-            );
-        });
+        // acknowledge error
+        cy.get(API_ERROR_CLOSE_BUTTON_QUERY).click();
+        // Loading: hidden; Error: hidden; Wrapped: visible
+        cy.get(API_LOADING_QUERY).should('not.exist');
+        cy.get(API_ERROR_QUERY).should('not.exist');
+        cy.get(EX_RATES_TABLE_QUERY).should('exist');
 
         // dispatch get rates success action
         cy.dispatch(API_GET_EX_RATES_SUCCESS_TYPE, {});
