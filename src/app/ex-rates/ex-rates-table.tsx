@@ -1,39 +1,79 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, PropsWithChildren } from 'react';
 import { ExRates } from '../../api/ex-rates/types';
 import withApiStatus from '../components/api-status';
+import {
+    List,
+    ListItem,
+    ListItemText,
+    makeStyles,
+    Typography,
+    PropTypes,
+    Paper
+} from '@material-ui/core';
+import { CSSProperties } from '@material-ui/styles';
+import { fade } from '@material-ui/core/styles';
 
 type ExRatesTableProps = {
     data?: ExRates;
 };
 
-const ExRatesTable: FunctionComponent<ExRatesTableProps> = ({ data }) => {
+const useStyles = makeStyles(theme => ({
+    root: {
+        flex: 1,
+        overflow: 'auto'
+    } as CSSProperties,
+    list: {
+        backgroundColor: theme.palette.background.paper
+    } as CSSProperties,
+    listItem: {
+        '&:nth-child(odd):not(:hover)': {
+            backgroundColor: fade(theme.palette.background.default, 0.5)
+        } as CSSProperties
+    }
+}));
+
+type ItemTextProps = {
+    align?: PropTypes.Alignment;
+    'data-test': string;
+};
+const ItemText: FunctionComponent<PropsWithChildren<ItemTextProps>> = ({
+    children,
+    ...otherProps
+}) => {
     return (
-        <div data-test={ExRatesTable.displayName}>
+        <ListItemText disableTypography>
+            <Typography color={'textPrimary'} {...otherProps}>
+                {children}
+            </Typography>
+        </ListItemText>
+    );
+};
+
+const ExRatesTable: FunctionComponent<ExRatesTableProps> = ({ data }) => {
+    const classes = useStyles();
+
+    return (
+        <Paper className={classes.root} data-test={ExRatesTable.displayName}>
             {data && data.rates ? (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>{'currency'}</th>
-                            <th>{'rate'}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {Object.keys(data.rates).map(key => {
-                            return (
-                                <tr key={key} data-test={`row-${key}`}>
-                                    <td data-test={'curr'}>{key}</td>
-                                    <td data-test={'rate'}>
-                                        {data.rates[key]}
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            ) : (
-                <span data-test={'no-data'}>{'No data'}</span>
-            )}
-        </div>
+                <List className={classes.list}>
+                    {Object.keys(data.rates).map(key => {
+                        return (
+                            <ListItem
+                                key={key}
+                                data-test={`row-${key}`}
+                                className={classes.listItem}
+                                button
+                            >
+                                <ItemText data-test={'curr'}>{key}</ItemText>
+                                <ItemText data-test={'rate'} align={'right'}>
+                                    {data.rates[key]}
+                                </ItemText>
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            ) : null}
+        </Paper>
     );
 };
 
