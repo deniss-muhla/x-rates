@@ -4,8 +4,6 @@ const API_GET_EX_RATES_SUCCESS_TYPE = 'GET_EX_RATES_SUCCESS';
 const API_GET_EX_RATES_ERROR_TYPE = 'GET_EX_RATES_ERROR';
 const API_GET_EX_RATES_ERROR_PAYLOAD = 'TEST_ERROR_PAYLOAD';
 const API_EX_RATES_SELECTOR = 'api.exRates';
-const DATE_FORMAT = 'YYYY-MM-DD';
-const EX_RATE_EXPIRATION_D = 3;
 
 context('Redux Store: API.ExRates', () => {
     beforeEach(() => {
@@ -66,16 +64,11 @@ context('Redux Store: API.ExRates', () => {
                 .empty;
             expect(xhr.response.body.base, 'Get ExRates API response.base').to
                 .be.not.empty;
-            // check ExRates date is within X days
+            // check ExRates date is valid
             expect(
                 xhr.response.body.date,
                 'Get ExRates API response.date'
-            ).to.satisfy(date => {
-                return Cypress.moment(date).isBetween(
-                    Cypress.moment().subtract(EX_RATE_EXPIRATION_D, 'days'),
-                    Cypress.moment()
-                );
-            });
+            ).to.satisfy(date => Cypress.moment(date).isValid());
             expect(xhr.response.body.rates, 'Get ExRates API response.rates ')
                 .to.be.not.empty;
             cy.store(API_EX_RATES_SELECTOR).should(exRates => {
@@ -85,6 +78,25 @@ context('Redux Store: API.ExRates', () => {
                     exRates.latestRates,
                     'ExRates latestRates state'
                 ).to.deep.eq(xhr.response.body);
+            });
+
+            const nextBase = Object.keys(xhr.response.body.rates).find(
+                v => v !== xhr.response.body.base
+            );
+
+            // dispatch get rates request action with base parameter
+            cy.dispatch(API_GET_EX_RATES_REQUEST_TYPE, nextBase);
+
+            // wait for API response
+            cy.wait('@apiExRates').then(xhr => {
+                expect(
+                    xhr.response.body.base,
+                    'Get ExRates API response.base'
+                ).to.eq(nextBase);
+                expect(
+                    xhr.response.body.rates,
+                    'Get ExRates API response.rates '
+                ).to.be.not.empty;
             });
         });
     });
