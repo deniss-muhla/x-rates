@@ -88,6 +88,10 @@ context('Redux Store: API.ExRates', () => {
 
             // dispatch get rates request action with base parameter
             cy.dispatch(API_GET_EX_RATES_WITH_BASE_REQUEST_TYPE, nextBase);
+            cy.store(API_EX_RATES_SELECTOR).should(exRates => {
+                expect(exRates.isPending, 'ExRates pending state').to.be.true;
+                expect(exRates.error, 'ExRates error state').to.be.empty;
+            });
 
             // wait for API response
             cy.wait('@apiExRates').then(xhr => {

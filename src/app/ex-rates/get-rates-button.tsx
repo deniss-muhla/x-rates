@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import RefreshIcon from '../components/icons/refresh-icon';
 
 type GetRatesButtonProps = {
+    isPending: boolean;
     isEmptyRates: boolean;
     onClick: () => void;
 };
@@ -49,6 +50,7 @@ const buttons = [
 ];
 
 const GetRatesButton: FunctionComponent<GetRatesButtonProps> = ({
+    isPending,
     isEmptyRates,
     onClick
 }) => {
@@ -86,7 +88,7 @@ const GetRatesButton: FunctionComponent<GetRatesButtonProps> = ({
                                 aria-label={'refresh'}
                                 className={classes.fab}
                                 color={'secondary'}
-                                onClick={onClick}
+                                onClick={isPending ? () => {} : onClick}
                             >
                                 {btn.icon}
                             </Fab>

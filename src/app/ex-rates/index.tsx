@@ -40,16 +40,33 @@ const ExRates: FunctionComponent = () => {
     const classes = useStyles();
 
     const exRates = useSelector(exRatesSelectors.GetExRatesState);
+    const isEmptyRates = !exRates.latestRates;
+
     const dispatch = useDispatch();
-    const getRates = useCallback(
-        () => dispatch(exRatesActions.GetExRatesRequest()),
+    const getRates = useCallback(() => {
+        if (exRates.latestRates) {
+            dispatch(
+                exRatesActions.GetExRatesWithBaseRequest(
+                    exRates.latestRates.base
+                )
+            );
+        } else {
+            dispatch(exRatesActions.GetExRatesRequest());
+        }
+    }, [dispatch, exRates]);
+    const getRatesWithBase = useCallback(
+        (base: string) =>
+            dispatch(exRatesActions.GetExRatesWithBaseRequest(base)),
         [dispatch]
     );
-    const isEmptyRates = !exRates.latestRates;
 
     return (
         <>
-            <GetRatesButton isEmptyRates={isEmptyRates} onClick={getRates} />
+            <GetRatesButton
+                isPending={exRates.isPending}
+                isEmptyRates={isEmptyRates}
+                onClick={getRates}
+            />
             <Container
                 data-test={ExRates.displayName}
                 className={classes.root}
@@ -59,6 +76,7 @@ const ExRates: FunctionComponent = () => {
                     isPending={exRates.isPending}
                     error={exRates.error}
                     data={exRates.latestRates}
+                    onSelectBase={getRatesWithBase}
                 />
             </Container>
         </>

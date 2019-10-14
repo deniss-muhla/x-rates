@@ -29,7 +29,8 @@ const useStyles = makeStyles(theme => ({
         left: 0,
         right: 0,
         position: 'absolute',
-        zIndex: theme.zIndex.appBar
+        zIndex: theme.zIndex.appBar,
+        opacity: '1 !important'
     } as CSSProperties
 }));
 
@@ -39,6 +40,7 @@ const withApiStatus = <P extends object>(
 ): FunctionComponent<P & ApiStatusProps> => {
     return props => {
         const { isPending, error } = props;
+
         const classes = useStyles();
         const theme = useTheme();
         // loading animation delays
@@ -68,7 +70,12 @@ const withApiStatus = <P extends object>(
                     key={'progress'}
                     in={isPending}
                     timeout={transitionDuration}
-                    unmountOnExit={true}
+                    // style={{
+                    //     transitionDelay: `${
+                    //         !isPending ? transitionDuration.exit : 0
+                    //     }ms`
+                    // }}
+                    // unmountOnExit={true}
                 >
                     <LinearProgress
                         color={'secondary'}

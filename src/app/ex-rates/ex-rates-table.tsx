@@ -8,13 +8,18 @@ import {
     makeStyles,
     Typography,
     PropTypes,
-    Paper
+    Paper,
+    ListItemIcon,
+    IconButton
 } from '@material-ui/core';
 import { CSSProperties } from '@material-ui/styles';
 import { fade } from '@material-ui/core/styles';
+import RadioboxMarkedIcon from '../components/icons/radiobox-marked-icon';
+import RadioboxBlankIcon from '../components/icons/radiobox-blank-icon';
 
 type ExRatesTableProps = {
     data?: ExRates;
+    onSelectBase: (base: string) => void;
 };
 
 const useStyles = makeStyles(theme => ({
@@ -26,7 +31,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.paper
     } as CSSProperties,
     listItem: {
-        '&:nth-child(odd):not(:hover)': {
+        '&:nth-child(odd)': {
             backgroundColor: fade(theme.palette.background.default, 0.5)
         } as CSSProperties
     }
@@ -49,32 +54,69 @@ const ItemText: FunctionComponent<PropsWithChildren<ItemTextProps>> = ({
     );
 };
 
-const ExRatesTable: FunctionComponent<ExRatesTableProps> = ({ data }) => {
+const ExRatesTable: FunctionComponent<ExRatesTableProps> = ({
+    data,
+    onSelectBase
+}) => {
     const classes = useStyles();
+    if (data) {
+        const itemKeys = Object.keys(data.rates);
+        if (itemKeys.findIndex(v => v === data.base) === -1) {
+            itemKeys.unshift(data.base);
+        }
+        itemKeys.sort();
 
-    return (
-        <Paper className={classes.root} data-test={ExRatesTable.displayName}>
-            {data && data.rates ? (
+        return (
+            <Paper
+                className={classes.root}
+                data-test={ExRatesTable.displayName}
+            >
                 <List className={classes.list}>
-                    {Object.keys(data.rates).map(key => {
+                    {itemKeys.map(key => {
+                        const isSelected = key === data.base;
                         return (
                             <ListItem
                                 key={key}
                                 data-test={`row-${key}`}
                                 className={classes.listItem}
-                                button
                             >
+                                <ListItemIcon>
+                                    <IconButton
+                                        edge="end"
+                                        aria-label="comments"
+                                        onClick={() =>
+                                            key !== data.base &&
+                                            onSelectBase(key)
+                                        }
+                                        color={
+                                            isSelected ? 'secondary' : 'default'
+                                        }
+                                    >
+                                        {isSelected ? (
+                                            <RadioboxMarkedIcon />
+                                        ) : (
+                                            <RadioboxBlankIcon />
+                                        )}
+                                    </IconButton>
+                                </ListItemIcon>
                                 <ItemText data-test={'curr'}>{key}</ItemText>
                                 <ItemText data-test={'rate'} align={'right'}>
-                                    {data.rates[key]}
+                                    {data.rates[key] || 1}
                                 </ItemText>
                             </ListItem>
                         );
                     })}
                 </List>
-            ) : null}
-        </Paper>
-    );
+            </Paper>
+        );
+    } else {
+        return (
+            <Paper
+                className={classes.root}
+                data-test={ExRatesTable.displayName}
+            ></Paper>
+        );
+    }
 };
 
 ExRatesTable.displayName = 'ExRatesTable';
