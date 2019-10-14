@@ -59,7 +59,7 @@ const ExRatesTable: FunctionComponent<ExRatesTableProps> = ({
     onSelectBase
 }) => {
     const classes = useStyles();
-    if (data) {
+    if (data && data.rates) {
         const itemKeys = Object.keys(data.rates);
         if (itemKeys.findIndex(v => v === data.base) === -1) {
             itemKeys.unshift(data.base);
