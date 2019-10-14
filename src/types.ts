@@ -1,4 +1,4 @@
-import { Action as ReduxAction } from 'redux';
+import { Action as ReduxAction, AnyAction } from 'redux';
 import { ApiState } from './api/types';
 
 // action type without payload

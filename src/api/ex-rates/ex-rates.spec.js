@@ -1,5 +1,7 @@
-const EX_RATES_API = 'https://api.exchangeratesapi.io/latest';
+const EX_RATES_API = 'https://api.exchangeratesapi.io/latest*';
 const API_GET_EX_RATES_REQUEST_TYPE = 'GET_EX_RATES_REQUEST';
+const API_GET_EX_RATES_WITH_BASE_REQUEST_TYPE =
+    'GET_EX_RATES_WITH_BASE_REQUEST';
 const API_GET_EX_RATES_SUCCESS_TYPE = 'GET_EX_RATES_SUCCESS';
 const API_GET_EX_RATES_ERROR_TYPE = 'GET_EX_RATES_ERROR';
 const API_GET_EX_RATES_ERROR_PAYLOAD = 'TEST_ERROR_PAYLOAD';
@@ -85,7 +87,7 @@ context('Redux Store: API.ExRates', () => {
             );
 
             // dispatch get rates request action with base parameter
-            cy.dispatch(API_GET_EX_RATES_REQUEST_TYPE, nextBase);
+            cy.dispatch(API_GET_EX_RATES_WITH_BASE_REQUEST_TYPE, nextBase);
 
             // wait for API response
             cy.wait('@apiExRates').then(xhr => {

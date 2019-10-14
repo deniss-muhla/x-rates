@@ -3,12 +3,21 @@ import {
     ExRatesActionTypes,
     GetExRatesSuccessAction,
     ExRates,
-    GetExRatesErrorAction
+    GetExRatesErrorAction,
+    GetExRatesWithBaseRequestAction
 } from './types';
 
 // get latest rates request action
 export const GetExRatesRequest = (): GetExRatesRequestAction => ({
     type: ExRatesActionTypes.GET_EX_RATES_REQUEST
+});
+
+// get latest rates with base request action
+export const GetExRatesWithBaseRequest = (
+    base: string
+): GetExRatesWithBaseRequestAction => ({
+    type: ExRatesActionTypes.GET_EX_RATES_WITH_BASE_REQUEST,
+    payload: base
 });
 
 // get latest rates success response action
