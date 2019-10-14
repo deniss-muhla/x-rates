@@ -44,10 +44,10 @@ context('Exchange Rates', () => {
             Object.keys(responseData.rates).forEach(key => {
                 cy.get(GET_RATES_ROW_QUERY(key)).then(row => {
                     cy.wrap(row)
-                        .children(GET_RATES_ROW_CURR_QUERY)
+                        .find(GET_RATES_ROW_CURR_QUERY)
                         .should('contain', key);
                     cy.wrap(row)
-                        .children(GET_RATES_ROW_RATE_QUERY)
+                        .find(GET_RATES_ROW_RATE_QUERY)
                         .should('contain', responseData.rates[key]);
                 });
             });

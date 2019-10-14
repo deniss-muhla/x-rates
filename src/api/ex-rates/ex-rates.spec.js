@@ -1,10 +1,11 @@
-const EX_RATES_API = 'https://api.exchangeratesapi.io/latest';
+const EX_RATES_API = 'https://api.exchangeratesapi.io/latest*';
 const API_GET_EX_RATES_REQUEST_TYPE = 'GET_EX_RATES_REQUEST';
+const API_GET_EX_RATES_WITH_BASE_REQUEST_TYPE =
+    'GET_EX_RATES_WITH_BASE_REQUEST';
 const API_GET_EX_RATES_SUCCESS_TYPE = 'GET_EX_RATES_SUCCESS';
 const API_GET_EX_RATES_ERROR_TYPE = 'GET_EX_RATES_ERROR';
 const API_GET_EX_RATES_ERROR_PAYLOAD = 'TEST_ERROR_PAYLOAD';
 const API_EX_RATES_SELECTOR = 'api.exRates';
-const DATE_FORMAT = 'YYYY-MM-DD';
 
 context('Redux Store: API.ExRates', () => {
     beforeEach(() => {
@@ -65,16 +66,11 @@ context('Redux Store: API.ExRates', () => {
                 .empty;
             expect(xhr.response.body.base, 'Get ExRates API response.base').to
                 .be.not.empty;
-            // check ExRates date is within two days
+            // check ExRates date is valid
             expect(
                 xhr.response.body.date,
                 'Get ExRates API response.date'
-            ).to.satisfy(date => {
-                return Cypress.moment(date).isBetween(
-                    Cypress.moment().subtract(2, 'days'),
-                    Cypress.moment()
-                );
-            });
+            ).to.satisfy(date => Cypress.moment(date).isValid());
             expect(xhr.response.body.rates, 'Get ExRates API response.rates ')
                 .to.be.not.empty;
             cy.store(API_EX_RATES_SELECTOR).should(exRates => {
@@ -84,6 +80,29 @@ context('Redux Store: API.ExRates', () => {
                     exRates.latestRates,
                     'ExRates latestRates state'
                 ).to.deep.eq(xhr.response.body);
+            });
+
+            const nextBase = Object.keys(xhr.response.body.rates).find(
+                v => v !== xhr.response.body.base
+            );
+
+            // dispatch get rates request action with base parameter
+            cy.dispatch(API_GET_EX_RATES_WITH_BASE_REQUEST_TYPE, nextBase);
+            cy.store(API_EX_RATES_SELECTOR).should(exRates => {
+                expect(exRates.isPending, 'ExRates pending state').to.be.true;
+                expect(exRates.error, 'ExRates error state').to.be.empty;
+            });
+
+            // wait for API response
+            cy.wait('@apiExRates').then(xhr => {
+                expect(
+                    xhr.response.body.base,
+                    'Get ExRates API response.base'
+                ).to.eq(nextBase);
+                expect(
+                    xhr.response.body.rates,
+                    'Get ExRates API response.rates '
+                ).to.be.not.empty;
             });
         });
     });

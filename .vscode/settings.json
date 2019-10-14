@@ -2,8 +2,12 @@
     "editor.formatOnSave": true,
     "npm.packageManager": "yarn",
     "cSpell.words": [
+        "Radiobox",
         "antialiased",
         "browserslist",
-        "devtools"
+        "clsx",
+        "commitlint",
+        "devtools",
+        "unmount"
     ]
 }

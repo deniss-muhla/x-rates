@@ -1,8 +1,9 @@
-import { Action, PayloadAction } from '../../types';
+import { PayloadAction, Action } from '../../types';
 
 // action types
 export enum ExRatesActionTypes {
     GET_EX_RATES_REQUEST = 'GET_EX_RATES_REQUEST',
+    GET_EX_RATES_WITH_BASE_REQUEST = 'GET_EX_RATES_WITH_BASE_REQUEST',
     GET_EX_RATES_SUCCESS = 'GET_EX_RATES_SUCCESS',
     GET_EX_RATES_ERROR = 'GET_EX_RATES_ERROR'
 }
@@ -10,6 +11,10 @@ export enum ExRatesActionTypes {
 // get latest rates request action type
 export type GetExRatesRequestAction = Action<
     ExRatesActionTypes.GET_EX_RATES_REQUEST
+>;
+export type GetExRatesWithBaseRequestAction = PayloadAction<
+    ExRatesActionTypes.GET_EX_RATES_WITH_BASE_REQUEST,
+    string
 >;
 
 // get latest rates success response action type
@@ -27,6 +32,7 @@ export type GetExRatesErrorAction = PayloadAction<
 // all ExRates action types
 export type ExRatesActions =
     | GetExRatesRequestAction
+    | GetExRatesWithBaseRequestAction
     | GetExRatesSuccessAction
     | GetExRatesErrorAction;
 
