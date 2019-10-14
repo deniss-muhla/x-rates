@@ -70,12 +70,7 @@ const withApiStatus = <P extends object>(
                     key={'progress'}
                     in={isPending}
                     timeout={transitionDuration}
-                    // style={{
-                    //     transitionDelay: `${
-                    //         !isPending ? transitionDuration.exit : 0
-                    //     }ms`
-                    // }}
-                    // unmountOnExit={true}
+                    unmountOnExit={true}
                 >
                     <LinearProgress
                         color={'secondary'}
