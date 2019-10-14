@@ -1,12 +1,8 @@
 import { createStore, applyMiddleware, ReducersMapObject } from 'redux';
-import { combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
-import { apiReducer, apiSaga } from './api';
-import { RootState } from './types';
-
-// create root reducer
-const rootReducer: ReducersMapObject<RootState> = { api: apiReducer };
+import rootSaga from './sagas';
+import rootReducer from './reducer';
 
 // create saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -16,12 +12,25 @@ const composeEnhancers = composeWithDevTools({});
 
 // create redux store
 const store = createStore(
-    combineReducers(rootReducer),
+    rootReducer,
     composeEnhancers(applyMiddleware(sagaMiddleware))
 );
 
 // run root sagas
-sagaMiddleware.run(apiSaga);
+let rootSagaTask = sagaMiddleware.run(rootSaga);
+
+// webpack hot module replacement
+if (module.hot && process.env.NODE_ENV !== 'production') {
+    // replace reducer
+    module.hot.accept('./reducer', () => store.replaceReducer(rootReducer));
+    // replace saga
+    module.hot.accept('./sagas', () => {
+        rootSagaTask.cancel();
+        rootSagaTask.toPromise().then(() => {
+            rootSagaTask = sagaMiddleware.run(rootSaga);
+        });
+    });
+}
 
 // expose store when run in Cypress
 if (window.Cypress) {

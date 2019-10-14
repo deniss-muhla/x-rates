@@ -65,6 +65,7 @@ const withApiStatus = <P extends object>(
         return (
             <>
                 <Fade
+                    key={'progress'}
                     in={isPending}
                     timeout={transitionDuration}
                     unmountOnExit={true}
