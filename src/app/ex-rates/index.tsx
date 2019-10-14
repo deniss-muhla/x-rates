@@ -44,7 +44,7 @@ const ExRates: FunctionComponent = () => {
 
     const dispatch = useDispatch();
     const getRates = useCallback(() => {
-        if (exRates.latestRates) {
+        if (exRates.latestRates && exRates.latestRates.base) {
             dispatch(
                 exRatesActions.GetExRatesWithBaseRequest(
                     exRates.latestRates.base

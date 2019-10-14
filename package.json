@@ -68,6 +68,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "release": "standard-version",
+    "now-build": "yarn build",
     "test": "start-test 3000 cy:run",
     "eject": "react-scripts eject",
     "commit": "git-cz"

@@ -14,9 +14,10 @@ import axios, { AxiosResponse } from 'axios';
 import { GetExRatesError, GetExRatesSuccess } from './actions';
 
 // API url
-const GET_LATEST_RATES_URL = `${process.env.REACT_APP_API_URL}/latest`;
+const API_URL = 'https://api.exchangeratesapi.io';
+const GET_LATEST_RATES_URL = `${API_URL}/latest`;
 const GET_LATEST_RATES_WITH_BASE_URL = (base: string) =>
-    `${process.env.REACT_APP_API_URL}/latest?base=${base}`;
+    `${API_URL}/latest?base=${base}`;
 
 // fetch latest rates
 function* GetExRatesRequestHandler() {

@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "alias": "x-rates.deniss-muhla.now.sh",
+  "name": "x-rates",
+  "github": {
+    "autoAlias": false
+  },
+  "public": true,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/static-build",
+      "config": { "distDir": "build" }
+    }
+  ]
+}
