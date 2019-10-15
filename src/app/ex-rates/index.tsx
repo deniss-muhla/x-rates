@@ -2,7 +2,6 @@ import React, { FunctionComponent, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { exRatesSelectors, exRatesActions } from '../../api/ex-rates';
 import ExRatesTable from './ex-rates-table';
-import './ex-rates.css';
 import { Container, makeStyles } from '@material-ui/core';
 import { CSSProperties } from '@material-ui/styles';
 import GetRatesButton from './get-rates-button';
@@ -11,8 +10,6 @@ import { fade } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
     '@global': {
         '#root': {
-            display: 'flex',
-            flex: '1',
             backgroundColor: theme.palette.background.default
         } as CSSProperties,
         '*::-webkit-scrollbar': {
@@ -32,7 +29,6 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         position: 'relative',
         overflow: 'auto'
-        //maxHeight: '100%'
     } as CSSProperties
 }));
 
