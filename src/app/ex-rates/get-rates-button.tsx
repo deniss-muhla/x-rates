@@ -88,7 +88,8 @@ const GetRatesButton: FunctionComponent<GetRatesButtonProps> = ({
                                 aria-label={'refresh'}
                                 className={classes.fab}
                                 color={'secondary'}
-                                onClick={isPending ? () => {} : onClick}
+                                disabled={isPending}
+                                onClick={onClick}
                             >
                                 {btn.icon}
                             </Fab>
