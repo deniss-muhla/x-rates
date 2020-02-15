@@ -5,6 +5,7 @@ import ExRatesTable from './ex-rates-table';
 import { Container, makeStyles } from '@material-ui/core';
 import { CSSProperties } from '@material-ui/styles';
 import GetRatesButton from './get-rates-button';
+import GetPrevRatesButton from './get-prev-rates-button';
 import { fade } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -50,6 +51,11 @@ const ExRates: FunctionComponent = () => {
             dispatch(exRatesActions.GetExRatesRequest());
         }
     }, [dispatch, exRates]);
+
+    const getPrevRates = useCallback(() => {
+        dispatch(exRatesActions.GetPrevExRatesRequest());
+    }, [dispatch]);
+
     const getRatesWithBase = useCallback(
         (base: string) =>
             dispatch(exRatesActions.GetExRatesWithBaseRequest(base)),
@@ -58,6 +64,11 @@ const ExRates: FunctionComponent = () => {
 
     return (
         <>
+            <GetPrevRatesButton
+                isPending={exRates.isPending}
+                isEmptyRates={isEmptyRates}
+                onClick={getPrevRates}
+            />
             <GetRatesButton
                 isPending={exRates.isPending}
                 isEmptyRates={isEmptyRates}

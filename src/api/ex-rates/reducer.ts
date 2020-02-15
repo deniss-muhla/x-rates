@@ -13,6 +13,7 @@ const exRatesReducer: Reducer<ExRatesState, ExRatesActions> = (
 ) => {
     switch (action.type) {
         case ExRatesActionTypes.GET_EX_RATES_WITH_BASE_REQUEST:
+        case ExRatesActionTypes.GET_PREV_EX_RATES_REQUEST:
         case ExRatesActionTypes.GET_EX_RATES_REQUEST: {
             return {
                 ...prevState,

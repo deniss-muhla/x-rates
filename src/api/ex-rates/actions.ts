@@ -4,12 +4,18 @@ import {
     GetExRatesSuccessAction,
     ExRates,
     GetExRatesErrorAction,
-    GetExRatesWithBaseRequestAction
+    GetExRatesWithBaseRequestAction,
+    GetPrevExRatesRequestAction
 } from './types';
 
 // get latest rates request action
 export const GetExRatesRequest = (): GetExRatesRequestAction => ({
     type: ExRatesActionTypes.GET_EX_RATES_REQUEST
+});
+
+// get prev rates request action
+export const GetPrevExRatesRequest = (): GetPrevExRatesRequestAction => ({
+    type: ExRatesActionTypes.GET_PREV_EX_RATES_REQUEST
 });
 
 // get latest rates with base request action
