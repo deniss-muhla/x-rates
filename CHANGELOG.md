@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://github.com/deniss-muhla/x-rates/compare/v1.1.2...v1.1.3) (2021-04-25)
+
+
+### Bug Fixes
+
+* **api:** add new API key ([ba3d271](https://github.com/deniss-muhla/x-rates/commit/ba3d27170be86140e829b0097691dbc7b1d09772))
+
 ### [1.1.2](https://github.com/deniss-muhla/x-rates/compare/v1.1.1...v1.1.2) (2019-10-15)
 
 
