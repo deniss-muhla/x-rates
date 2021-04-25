@@ -22,7 +22,7 @@ type ExRatesTableProps = {
     onSelectBase: (base: string) => void;
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         flex: 1,
         overflow: 'auto'
@@ -61,7 +61,7 @@ const ExRatesTable: FunctionComponent<ExRatesTableProps> = ({
     const classes = useStyles();
     if (data && data.rates) {
         const itemKeys = Object.keys(data.rates);
-        if (itemKeys.findIndex(v => v === data.base) === -1) {
+        if (itemKeys.findIndex((v) => v === data.base) === -1) {
             itemKeys.unshift(data.base);
         }
         itemKeys.sort();
@@ -72,7 +72,7 @@ const ExRatesTable: FunctionComponent<ExRatesTableProps> = ({
                 data-test={ExRatesTable.displayName}
             >
                 <List className={classes.list}>
-                    {itemKeys.map(key => {
+                    {itemKeys.map((key) => {
                         const isSelected = key === data.base;
                         return (
                             <ListItem
@@ -81,23 +81,11 @@ const ExRatesTable: FunctionComponent<ExRatesTableProps> = ({
                                 className={classes.listItem}
                             >
                                 <ListItemIcon>
-                                    <IconButton
-                                        edge="end"
-                                        aria-label="comments"
-                                        onClick={() =>
-                                            key !== data.base &&
-                                            onSelectBase(key)
-                                        }
-                                        color={
-                                            isSelected ? 'secondary' : 'default'
-                                        }
-                                    >
-                                        {isSelected ? (
-                                            <RadioboxMarkedIcon />
-                                        ) : (
-                                            <RadioboxBlankIcon />
-                                        )}
-                                    </IconButton>
+                                    {isSelected ? (
+                                        <RadioboxMarkedIcon />
+                                    ) : (
+                                        <RadioboxBlankIcon />
+                                    )}
                                 </ListItemIcon>
                                 <ItemText data-test={'curr'}>{key}</ItemText>
                                 <ItemText data-test={'rate'} align={'right'}>

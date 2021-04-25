@@ -8,16 +8,20 @@ import {
     takeEvery,
     all,
     fork,
-    put
+    put,
+    ActionChannelEffect,
+    ForkEffect
 } from '@redux-saga/core/effects';
 import axios, { AxiosResponse } from 'axios';
 import { GetExRatesError, GetExRatesSuccess } from './actions';
+import { TakeableChannel } from 'redux-saga';
 
 // API url
-const API_URL = 'https://api.exchangeratesapi.io';
-const GET_LATEST_RATES_URL = `${API_URL}/latest`;
+const API_KEY = 'access_key=a8b71aad5cf418d0c91ed5475c5fda39';
+const API_URL = 'http://api.exchangeratesapi.io/v1';
+const GET_LATEST_RATES_URL = `${API_URL}/latest?${API_KEY}`;
 const GET_LATEST_RATES_WITH_BASE_URL = (base: string) =>
-    `${API_URL}/latest?base=${base}`;
+    `${API_URL}/latest?${API_KEY}&base=${base}`;
 
 // fetch latest rates
 function* GetExRatesRequestHandler() {
@@ -38,7 +42,9 @@ function* GetExRatesRequestHandler() {
 }
 
 // get ExRates request action watcher
-function* GetExRatesRequest() {
+function* GetExRatesRequest(): Generator<
+    ActionChannelEffect | ForkEffect<never>
+> {
     try {
         // create ExRates request actions channel
         const channel = yield actionChannel(
@@ -46,7 +52,10 @@ function* GetExRatesRequest() {
         );
 
         // process all requests
-        yield takeEvery(channel, GetExRatesRequestHandler);
+        yield takeEvery(
+            channel as TakeableChannel<unknown>,
+            GetExRatesRequestHandler
+        );
     } catch (e) {
         console.error(e);
     }
@@ -73,7 +82,9 @@ function* GetExRatesWithBaseRequestHandler(
 }
 
 // get ExRates request action with base watcher
-function* GetExRatesWithBaseRequest() {
+function* GetExRatesWithBaseRequest(): Generator<
+    ActionChannelEffect | ForkEffect<never>
+> {
     try {
         // create ExRates request actions channel
         const channel = yield actionChannel(
@@ -81,13 +92,16 @@ function* GetExRatesWithBaseRequest() {
         );
 
         // process all requests
-        yield takeEvery(channel, GetExRatesWithBaseRequestHandler);
+        yield takeEvery(
+            channel as TakeableChannel<unknown>,
+            GetExRatesWithBaseRequestHandler
+        );
     } catch (e) {
         console.error(e);
     }
 }
 
 // root saga
-export default function*() {
+export default function* () {
     yield all([fork(GetExRatesRequest), fork(GetExRatesWithBaseRequest)]);
 }
